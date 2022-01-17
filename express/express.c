@@ -3,6 +3,8 @@
 #include <string.h>
 
 // 2501976503 - Fabian Habil Ramdhan - LB75 - SasukeExpress Assignment
+// Algoritma Searching -> Binary Search
+// Algoritma Sorting -> Quick Sort
 
 // Deklarasi Struct dan Variabel Global.
 // Struct untuk menyimpan data pelanggan dengan length 1000 data.
@@ -22,7 +24,7 @@ int delete = 0;
 void menu();
 void menuOption(unsigned short option);
 void enterToContinue();
-int validasiHP(char noHP[] , int length);
+int validasiHP(char noHP[]);
 int binarySearch(Pelanggan pelanggan[], char cari[], int mulai, int akhir);
 void quickSort(Pelanggan pelanggan[], int mulai, int akhir);
 int partition(Pelanggan pelanggan[], int mulai, int akhir);
@@ -124,8 +126,8 @@ void enterToContinue(){
 /* Fungsi untuk validasi Nomor hp, kita akan loop dari awal string sampai akhir
 dan cek jika ada selain angka akan mereturn value 0 (false), namun jika tidak ditemukan
 selain angka, akan mereturn value 1 (true) */
-int validasiHP(char noHP[] , int length){
-    for(int i = 0; i < length; i++){
+int validasiHP(char noHP[]){
+    for(int i = 0; i < strlen(noHP); i++){
         if(noHP[i] >= '0' && noHP[i] <= '9'){
             continue;
         }
@@ -212,7 +214,7 @@ void tambahAlamat(){
     /* Melakukan validasi, jika input user ada huruf dan bukan angka, akan return 0
     Namun jika input sudah benar angka semua, akan return 1 */
 
-    int validasihp = validasiHP(pelangganadd.nohp, strlen(pelangganadd.nohp));
+    int validasihp = validasiHP(pelangganadd.nohp);
 
     // Ketika validasihp masih salah, user akan diminta input terus sampai benar.
     while(!validasihp){
@@ -222,7 +224,7 @@ void tambahAlamat(){
         getchar();
 
         // validasihp lagi dari input yang baru.
-        validasihp = validasiHP(pelangganadd.nohp, strlen(pelangganadd.nohp));
+        validasihp = validasiHP(pelangganadd.nohp);
     }
 
     // Input alamat pelanggan.
@@ -424,25 +426,33 @@ void deleteAlamat(){
                     system("cls");
                 }
                 else{
-                    // Memberi prompt untuk user, Y untuk hapus N untuk cancel.
-                    printf("\nAnda akan menghapus alamat %s\n", pelanggan[option-1].alamat);
-                    printf("Anda Yakin? Y / N\n");
-                    printf("Input: ");
-                    char lanjut[5];
-                    scanf("%s", lanjut);
-                    getchar();
-
                     /* Jika input Y, maka akan didelete, ide nya adalah mengganti value namanya menjadi "00NULL"
                     kenapa "00NULL" karena string tersebut jika disort akan muncul paling awal sehingga memudahkan kita nantinya
                     untuk menulis kembali data yang ada di struct ke file kita. Lalu kita increment variabel delete tadi.*/
-                    if(strcmp(lanjut, "Y") == 0){
-                        strcpy(pelanggan[option-1].nama, "00NULL");
-                        delete++;
+
+                    /* Membuat loop jika user input Y maka akan delete, jika N untuk keluar. Namun jika selain keduanya, akan terus
+                    meminta input dari user*/
+                    while(1){
+                        // Memberi prompt untuk user, Y untuk hapus N untuk cancel.
+                        printf("\nAnda akan menghapus alamat %s\n", pelanggan[option-1].alamat);
+                        printf("Anda Yakin? Y / N\n");
+                        printf("Input: ");
+                        char lanjut[5];
+                        scanf("%s", lanjut);
+                        getchar();
+                        if(strcmp(lanjut, "Y") == 0){
+                            strcpy(pelanggan[option-1].nama, "00NULL");
+                            delete++;
+                        }
+                        if(strcmp(lanjut, "N") == 0){
+                            break;
+                        }
+                        else{
+                            system("cls");
+                            printf("Input Salah!\n");
+                        }
                     }
                     // Jika input N, maka akan keluar dari loop.
-                    else{
-                        break;
-                    }
                     // Prompt Enter to Continue.
                     enterToContinue();
                     system("cls");

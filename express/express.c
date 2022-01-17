@@ -18,49 +18,21 @@ int count = 0;
 // Variabel delete untuk menghitung ada berapa banyak data yang dihapus.
 int delete = 0;
 
-// Prosedur menu.
+// Fungsi dan Prosedur prototype.
 void menu();
-
-// Prosedur untuk handle input dari user.
 void menuOption(unsigned short option);
-
-// Prosedur untuk prompt enter to continue.
 void enterToContinue();
-
-// Fungsi untuk validasi Nomor hp.
 int validasiHP(char noHP[] , int length);
-
-// Fungsi untuk mencari data, menggunakan Binary Search.
 int binarySearch(Pelanggan pelanggan[], char cari[], int mulai, int akhir);
-
-// Prosedur untuk quicksort dengan memanggil fungsi partition untuk nilai tengah dan sortir.
 void quickSort(Pelanggan pelanggan[], int mulai, int akhir);
-
-// Fungsi untuk partisi dan sortir untuk quicksort.
 int partition(Pelanggan pelanggan[], int mulai, int akhir);
-
-// Prosedur untuk swap Struct.
 void swap(Pelanggan *pelangganA, Pelanggan *pelangganB);
-
-// Prosedur untuk menimpa semua data yang ada di struct ke database.
 void entryNewData();
-
-// Prosedur untuk output semua pelanggan.
 void printSemuaPelanggan();
-
-// Prosedur untuk output semua alamat.
 void printSemuaAlamat();
-
-// Prosedur pertama, yaitu menambahkan alamat.
 void tambahAlamat();
-
-// Prosedur kedua, yaitu untuk edit data pelanggan.
 void editPelanggan();
-
-// Prosedur ketiga, yaitu untuk menghapus data alamat.
 void deleteAlamat();
-
-// Prosedur keempat, yaitu untuk menampilkan semua data pelanggan dan alamat.
 void printAlamat();
 
 // Fungsi main untuk menjalankan program.

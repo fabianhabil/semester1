@@ -402,7 +402,7 @@ void deleteAlamat(){
 
         // Jika input tidak valid atau user memilih lebih dari range data, maka akan diberi tahu input salah.
         if(!valid || option > count) printf("Input Salah!\n");
-        printf("Ingin Merubah Nomor berapa?\n");
+        printf("Ingin Hapus Nomor berapa?\n");
         printf("Ketik 0 untuk keluar!\n");
         printf("Input: ");
 

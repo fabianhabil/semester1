@@ -443,8 +443,10 @@ void deleteAlamat(){
                         if(strcmp(lanjut, "Y") == 0){
                             strcpy(pelanggan[option-1].nama, "00NULL");
                             delete++;
+                            printf("Alamat %s berhasil dihapus!\n", pelanggan[option-1].alamat);
+                            break;
                         }
-                        if(strcmp(lanjut, "N") == 0){
+                        else if(strcmp(lanjut, "N") == 0){
                             break;
                         }
                         else{
@@ -538,7 +540,7 @@ void printSemuaPelanggan(){
     printf("---------------------------------------------------------------------------");
     printf("-------------------------");
     printf("\n");
-    printf("Total data yang tersedia %d\n", count);
+    printf("Total data yang tersedia %d\n", count - delete);
     printf("\n");
 }
 
@@ -565,7 +567,7 @@ void printSemuaAlamat(){
         }
     }
     printf("-----------------------------------------------------------\n");
-    printf("Total data yang tersedia %d\n", count);
+    printf("Total data yang tersedia %d\n", count - delete);
     printf("\n");
 }
 

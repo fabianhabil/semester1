@@ -34,6 +34,7 @@ void addStudent();
 
 //fitur kedua, entry score
 void entryScore();
+
 //procedure bantuan untuk edit score
 void entrynewScore();
 
@@ -52,7 +53,7 @@ int partition(Mahasiswa mahasiswa[], int mulai, int akhir, char tipe);
 // Prosedur untuk swap 2 struct
 void swap(Mahasiswa *mahasiswaA, Mahasiswa *mahasiswaB);
 
-//procedure pause sebelum cls tampilan
+//procedure pause sebelum clear tampilan
 void enterToContinue();
 
 //procedure tampilin semua data
@@ -66,7 +67,7 @@ void outputNilai(int index);
 
 //function main untuk menjalankan program
 int main(){
-    system("cls");
+    system("clear");
     unsigned short exit = 0, option, valid;
 
     /* Open file stream saat pertama kali menjalankan program, jika tidak ada file, maka akan dibuat
@@ -86,29 +87,29 @@ int main(){
         // adain validator input - fabian
         if(valid){
             if(option == 0){
-                system("cls");
+                system("clear");
                 printf("Keluar...");
                 exit = 1;
             }
             else if(option == 1){
-                system("cls");
+                system("clear");
                 addStudent();
             }
             else if(option == 2){
-                system("cls");
+                system("clear");
                 entryScore();
             }
             else if(option == 3){
-                system("cls");
+                system("clear");
                 showData();
             }
             else{
-                system("cls");
+                system("clear");
                 printf("Input invalid! Silahkan coba lagi!\n");
             }
         }
         else{
-            system("cls");
+            system("clear");
             printf("Input invalid! Silahkan coba lagi!\n");
         }
     }while(!exit);
@@ -157,7 +158,7 @@ void addStudent(){
     fclose(fp);
     printf("Data sudah disimpan!\n");
     enterToContinue();
-    system("cls");
+    system("clear");
 }
 
 //memasukkan input nilai ke dalam variable struct sementara
@@ -181,7 +182,7 @@ void entryScore(){
 
     int index;
     do{
-        system("cls");
+        system("clear");
         
         //display semua data (sebelumnya sudah di-sorting ascending berdasarkan NIM)
         output();
@@ -207,7 +208,7 @@ void entryScore(){
             else{
                 int exit_score = 0;
                 do{
-                    system("cls");
+                    system("clear");
                     printf("| %-10s | %-30s | %-3s | %-3s | %-3s |\n", "NIM", "NAMA LENGKAP", "ASG", "MID", "FIN");
                     printf("%s\n", "-----------------------------------------------------------------");
                     
@@ -242,7 +243,7 @@ void entryScore(){
                         printf("Input salah! silahkan coba lagi!\n");
                     }
                 }while(!exit_score);
-                system("cls");
+                system("clear");
             }
         }
     }while(!exit);
@@ -251,14 +252,29 @@ void entryScore(){
     
     //writing/timpa semua nilai yang ada pada struct
     entrynewScore(count);
-    system("cls");
+    system("clear");
 }
 
-// setelah edit score, kita akan menulis kembali data tersebut ke database - fabian
+// Setelah edit data, kita akan menulis kembali data tersebut di database.
 void entrynewScore(){
-    //open stream mode writing (menimpa seluruh data)
+    // Open file stream menggunakan mode writing (menimpa seluruh data).
     FILE *fp = fopen("database.data", "w");
+
+   /* Loop dari 0 sampai count */
     for(int i = 0; i < count; i++){
+        /* Terdapat edge case, jika di file tidak ada data sama sekali ternyata mendapatkan count = 1 karena "/0" 
+        dan akan tetap menulis di file database ## tetapi tidak ada data. Hal ini membuat program kita crash. Maka
+        cara mengatasinya adalah jika count nya 1, kita cek apakah ada value nama menggunakan strlen, jika ada data
+        tidak melakukan apa apa, namun jika tidak ada data. maka kita continue sehingga loop selesai dan tidak akan 
+        fprintf yang di bawahnya.*/
+        
+        /* Namun jika count 1 dan ada datanya, bisa saja data hanya ada satu dan kita akan hapus, 
+        maka kita cek apakah itu akan dihapus atau tidak, jika iya, kita continue dan tidak akan kita tulis di file.
+        Jika tidak, tidak melakukan apa apa.*/
+        if(count == 1){
+            if(strlen(mahasiswa[i].nama) > 0);
+            else continue;
+        }
         fprintf(fp, "%s#%s#%d#%d#%d\n", mahasiswa[i].nama, mahasiswa[i].nim, mahasiswa[i].asg, mahasiswa[i].mid, mahasiswa[i].fin);
     }
     fclose(fp);
@@ -313,15 +329,15 @@ void showData(){
                 output();
             }
             enterToContinue();
-            system("cls");
+            system("clear");
         }
         else{
-            system("cls");
+            system("clear");
             printf("Input invalid! Silahkan coba lagi!\n");
         }
     }while(1);
     enterToContinue();
-    system("cls");
+    system("clear");
     fclose(fp);
 }
 
@@ -408,7 +424,7 @@ void quickSort(Mahasiswa mahasiswa[], int mulai, int akhir, char tipe){
 }
 
 // enter to continue biar langsung dipanggil kalo mau enter prompt - fabian
-// dan procedure buat pause tampilan sebelum dilakukan cls (karena menggunakan getchar sebelumnya)
+// dan procedure buat pause tampilan sebelum dilakukan clear (karena menggunakan getchar sebelumnya)
 void enterToContinue(){
     printf("Tekan Enter untuk melanjutkan...");
     getchar();
@@ -417,31 +433,68 @@ void enterToContinue(){
 //procedure tampilin semua data yang ada pada variabel struct mahasiswa
 //data ditampilkan sesuai pilihan dari user (sorting NIM/ASG/MID/FIN)
 void output(){
+    printf("%s\n", "-----------------------------------------------------------------");
     printf("| %-10s | %-30s | %-3s | %-3s | %-3s |\n", "NIM", "NAMA LENGKAP", "ASG", "MID", "FIN");
     printf("%s\n", "-----------------------------------------------------------------");
     for(int i = 0; i < count; i++){
-        printf("| %-10s | %-30s | ", mahasiswa[i].nim, mahasiswa[i].nama);
-        
-        if(mahasiswa[i].asg == -1){
-            printf("%-3s | ", "N/A");
-        }else{
-            printf("%-3d | ", mahasiswa[i].asg);
-        }
-        
-        if(mahasiswa[i].mid == -1){
-            printf("%-3s | ", "N/A");
-        }else{
-            printf("%-3d | ", mahasiswa[i].mid);
-        }
+        if(count == 1){
+            if(strlen(mahasiswa[i].nama) > 0){
+                printf("| %-10s | %-30s | ", mahasiswa[i].nim, mahasiswa[i].nama);
+                if(mahasiswa[i].asg == -1){
+                    printf("%-3s | ", "N/A");
+                }else{
+                    printf("%-3d | ", mahasiswa[i].asg);
+                }
+                
+                if(mahasiswa[i].mid == -1){
+                    printf("%-3s | ", "N/A");
+                }else{
+                    printf("%-3d | ", mahasiswa[i].mid);
+                }
 
-        if(mahasiswa[i].fin == -1){
-            printf("%-3s |\n", "N/A");
-        }else{
-            printf("%-3d |\n", mahasiswa[i].fin);
+                if(mahasiswa[i].fin == -1){
+                    printf("%-3s |\n", "N/A");
+                }else{
+                    printf("%-3d |\n", mahasiswa[i].fin);
+                }
+            }
+            else{
+                printf("\t\t\t Data masih kosong\n");
+            }
+        }
+        else{
+            printf("| %-10s | %-30s | ", mahasiswa[i].nim, mahasiswa[i].nama);
+            if(mahasiswa[i].asg == -1){
+                printf("%-3s | ", "N/A");
+            }else{
+                printf("%-3d | ", mahasiswa[i].asg);
+            }
+                
+            if(mahasiswa[i].mid == -1){
+                printf("%-3s | ", "N/A");
+            }else{
+                printf("%-3d | ", mahasiswa[i].mid);
+            }
+
+            if(mahasiswa[i].fin == -1){
+                printf("%-3s |\n", "N/A");
+            }else{
+                printf("%-3d |\n", mahasiswa[i].fin);
+            }
         }
     }
     printf("%s\n", "-----------------------------------------------------------------");
-    printf("Total data tersedia: %d\n\n", count);
+    if(count == 1){
+        if(strlen(mahasiswa[0].nama) > 0){
+            printf("Total data tersedia: %d\n\n", count);
+        }
+        else{
+            printf("Total data tersedia: %d\n\n", count - 1);
+        }
+    }
+    else{
+        printf("Total data tersedia: %d\n\n", count);
+    }
 }
 
 //procedure untuk melakukan proses assigning (pemindahan) nilai sementara ke variable struct. Dibuatkan procedure agar tidak dilakukan penulisan kode yang berulang-ulang

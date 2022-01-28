@@ -229,7 +229,6 @@ void entryScore(){
                     scanf(" %s", input_score_opsi);
                     getchar();
                     if((strcmp(input_score_opsi, "ASG") == 0) || (strcmp(input_score_opsi, "MID") == 0) || (strcmp(input_score_opsi, "FIN") == 0) || (strcmp(input_score_opsi, "N") == 0)){
-                        
                         //jika N maka keluar dari loop
                         if(strcmp(input_score_opsi, "N") == 0){
                             exit_score = 1;
@@ -257,7 +256,7 @@ void entryScore(){
     fclose(fp);
     
     //writing/timpa semua nilai yang ada pada struct
-    entrynewScore(count);
+    entrynewScore();
     system("cls");
 }
 
@@ -268,7 +267,7 @@ void entrynewScore(){
 
    /* Loop dari 0 sampai count */
     for(int i = 0; i < count; i++){
-        /* Terdapat edge case, jika di file tidak ada data sama sekali ternyata mendapatkan count = 1 karena "/0" 
+        /* Terdapat edge case, jika di file tidak ada data sama sekali ternyata mendapatkan count = 1 karena "/0"
         dan akan tetap menulis di file database ## tetapi tidak ada data. Hal ini membuat program kita crash. Maka
         cara mengatasinya adalah jika count nya 1, kita cek apakah ada value nama menggunakan strlen, jika ada data
         tidak melakukan apa apa, namun jika tidak ada data. maka kita continue sehingga loop selesai dan tidak akan 

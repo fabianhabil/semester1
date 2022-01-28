@@ -1,6 +1,6 @@
 /*  Kelompok 7 - lB75
     Fabian Habil Ramdhan - 2501976503
-    Kadek Tania Taragita Yundrea - 2501967461
+    Kadek Tania Taragita Yundra - 2501967461
     Muhammad Syauqi Frizman - 2501976453
 
     Class Management Program
@@ -13,61 +13,61 @@
 //buat handle string
 #include <string.h> 
 
-// dijadiin typedef fabian
+// Deklarasi Struct untuk mahasiswa
 typedef struct database{
     char nim[100];
     char nama[100];
     int asg, mid, fin;
 }Mahasiswa;
 
-// adain variabel global count, buat ngecek ada berapa isi data yang di txt - fabian
+// adain variabel global count, buat ngecek ada berapa isi data yang di database
 int count = 0;
 
 // deklarasi struct sebanyak 1000 data
 Mahasiswa mahasiswa[1000];
 
-//menu header
+//menu header - Fabian
 void menu();
 
-//fitur pertama, add student
+//fitur pertama, add student - Tania
 void addStudent();
 
-//fitur kedua, entry score
+//fitur kedua, entry score - Fabian
 void entryScore();
 
-//procedure bantuan untuk edit score
+//procedure bantuan untuk edit score - Fabian
 void entrynewScore();
 
-//fitur ketiga, tampilin data secara ascending
+//fitur ketiga, tampilin data secara ascending - Syauqi
 void showData();
 
-//function algorithm binarysearch untuk search NIM
+//function algorithm binarysearch untuk search NIM - Fabian
 int binarySearch(Mahasiswa mahasiswa[], char nim[], int kiri, int kanan);
 
-//procedure algorithm quicksort untuk sorting secara ascending baik itu NIM, ASG, MID, atau FIN
+//procedure algorithm quicksort untuk sorting secara ascending baik itu NIM, ASG, MID, atau FIN - Syauqi
 void quickSort(Mahasiswa mahasiswa[], int mulai, int akhir, char tipe);
 
-//function pembantu quicksort
+//function pembantu quicksort - Syauqi
 int partition(Mahasiswa mahasiswa[], int mulai, int akhir, char tipe);
 
-// Prosedur untuk swap 2 struct
+// Prosedur untuk swap 2 struct - Syauqi
 void swap(Mahasiswa *mahasiswaA, Mahasiswa *mahasiswaB);
 
-//procedure pause sebelum clear tampilan
+//procedure pause sebelum cls tampilan - Tania
 void enterToContinue();
 
-//procedure tampilin semua data
+//procedure tampilin semua data - Tania
 void output();
 
-//procedure proses penginputan nilai ke dalam variabel
+//procedure proses penginputan nilai ke dalam variabel - Fabian
 void prosesInputNilai(int index, char tipe);
 
-//procedure output khusus tapilin data mahasiswa yang dipilih
+//procedure output khusus tapilin data mahasiswa yang dipilih - Tania
 void outputNilai(int index);
 
-//function main untuk menjalankan program
+//function main untuk menjalankan program - Fabian
 int main(){
-    system("clear");
+    system("cls");
     unsigned short exit = 0, option, valid;
 
     /* Open file stream saat pertama kali menjalankan program, jika tidak ada file, maka akan dibuat
@@ -84,38 +84,39 @@ int main(){
         printf("Pilih menu: ");
         valid = scanf("%hu", &option);
         getchar();
-        // adain validator input - fabian
+
+        // Validator Input
         if(valid){
             if(option == 0){
-                system("clear");
+                system("cls");
                 printf("Keluar...");
                 exit = 1;
             }
             else if(option == 1){
-                system("clear");
+                system("cls");
                 addStudent();
             }
             else if(option == 2){
-                system("clear");
+                system("cls");
                 entryScore();
             }
             else if(option == 3){
-                system("clear");
+                system("cls");
                 showData();
             }
             else{
-                system("clear");
+                system("cls");
                 printf("Input invalid! Silahkan coba lagi!\n");
             }
         }
         else{
-            system("clear");
+            system("cls");
             printf("Input invalid! Silahkan coba lagi!\n");
         }
     }while(!exit);
 }
 
-//hanya print header menu
+//hanya print header menu - Fabian
 void menu(){
     printf("MENU PROGRAM\n");
     printf("1. Add Student\n");
@@ -125,7 +126,7 @@ void menu(){
     printf("=================\n");
 }
 
-//lakukan penambahan data baru ke dalam file "database.data"
+//lakukan penambahan data baru ke dalam file "database.data" - Tania
 void addStudent(){
     //deklarasi struct mahasiswa as mahasiswadd
     Mahasiswa mahasiswadd;
@@ -158,10 +159,10 @@ void addStudent(){
     fclose(fp);
     printf("Data sudah disimpan!\n");
     enterToContinue();
-    system("clear");
+    system("cls");
 }
 
-//memasukkan input nilai ke dalam variable struct sementara
+// memasukkan input nilai ke dalam variable struct sementara - Fabian
 void entryScore(){
     int exit = 0;
     char input_nim_opsi[100];
@@ -181,8 +182,10 @@ void entryScore(){
     quickSort(mahasiswa, 0, count-1, 'n');
 
     int index;
+
+    // Loop hingga user input N dan keluar dari menu ini
     do{
-        system("clear");
+        system("cls");
         
         //display semua data (sebelumnya sudah di-sorting ascending berdasarkan NIM)
         output();
@@ -200,15 +203,18 @@ void entryScore(){
             exit = 1;
         }
         else{
+            // Mencari index yang diinput user menggunakan binary search untuk diedit
             index = binarySearch(mahasiswa,  input_nim_opsi, 0, count);
+            // Jika data tidak ditemukan
             if(index == -1){
                 printf("Data tidak ditemukan! silahkan coba lagi\n");
                 enterToContinue();
             }
+            // Jika data ditemukan
             else{
                 int exit_score = 0;
                 do{
-                    system("clear");
+                    system("cls");
                     printf("| %-10s | %-30s | %-3s | %-3s | %-3s |\n", "NIM", "NAMA LENGKAP", "ASG", "MID", "FIN");
                     printf("%s\n", "-----------------------------------------------------------------");
                     
@@ -243,7 +249,7 @@ void entryScore(){
                         printf("Input salah! silahkan coba lagi!\n");
                     }
                 }while(!exit_score);
-                system("clear");
+                system("cls");
             }
         }
     }while(!exit);
@@ -252,10 +258,10 @@ void entryScore(){
     
     //writing/timpa semua nilai yang ada pada struct
     entrynewScore(count);
-    system("clear");
+    system("cls");
 }
 
-// Setelah edit data, kita akan menulis kembali data tersebut di database.
+// Setelah edit data, kita akan menulis kembali data tersebut di database. - Fabian
 void entrynewScore(){
     // Open file stream menggunakan mode writing (menimpa seluruh data).
     FILE *fp = fopen("database.data", "w");
@@ -280,7 +286,7 @@ void entrynewScore(){
     fclose(fp);
 }
 
-//menampilkan semua data yang ada pada "database.data"
+//menampilkan semua data yang ada pada "database.data" - Syauqi
 void showData(){
     FILE *fp;
     fp = fopen("database.data", "r");
@@ -289,6 +295,8 @@ void showData(){
         exit(1);
     }
     count = 0;
+
+    //lakukan perulangan read/scanf hingga end of file, nilai akan di-assign ke masing-masing variable di struct
     while(!feof(fp)){
         fscanf(fp," %[^#]#%[^#]#%d#%d#%d\n",mahasiswa[count].nama, mahasiswa[count].nim, &mahasiswa[count].asg, &mahasiswa[count].mid, &mahasiswa[count].fin);
         count++;
@@ -329,20 +337,19 @@ void showData(){
                 output();
             }
             enterToContinue();
-            system("clear");
+            system("cls");
         }
         else{
-            system("clear");
+            system("cls");
             printf("Input invalid! Silahkan coba lagi!\n");
         }
     }while(1);
     enterToContinue();
-    system("clear");
+    system("cls");
     fclose(fp);
 }
 
-// binser nailed it bitch - fabian
-//algorithm search NIM
+// algorithm search NIM - Fabian
 int binarySearch(Mahasiswa mahasiswa[], char nim[], int kiri, int kanan){
     int tengah;
     while(kiri <= kanan){
@@ -360,15 +367,14 @@ int binarySearch(Mahasiswa mahasiswa[], char nim[], int kiri, int kanan){
     return -1;
 }
 
-// Prosedur untuk swap 2 struct
+// Prosedur untuk swap 2 struct - Syauqi
 void swap(Mahasiswa *mahasiswaA, Mahasiswa *mahasiswaB){
     Mahasiswa temp = *mahasiswaA;
     *mahasiswaA = *mahasiswaB;
     *mahasiswaB = temp;
 }
 
-// Partisi buat quicksort nim - fabian
-// partisi buat pembantu procedure algorithm quicksort, sorting berdasarkan tipe yang dipilih oleh user
+// Partisi buat pembantu procedure algorithm quicksort, sorting berdasarkan tipe yang dipilih oleh user - Syauqi
 int partition(Mahasiswa mahasiswa[], int mulai, int akhir, char tipe){
     Mahasiswa pivot = mahasiswa[akhir];
     int i  = (mulai - 1);
@@ -413,8 +419,7 @@ int partition(Mahasiswa mahasiswa[], int mulai, int akhir, char tipe){
     return(i+1);
 }
 
-// Quicksort nim - fabian
-// algorithm utama quicksort
+// algorithm utama quicksort - Syauqi
 void quickSort(Mahasiswa mahasiswa[], int mulai, int akhir, char tipe){
     if(mulai < akhir){
         int tengah = partition(mahasiswa, mulai, akhir, tipe);
@@ -423,20 +428,24 @@ void quickSort(Mahasiswa mahasiswa[], int mulai, int akhir, char tipe){
     }
 }
 
-// enter to continue biar langsung dipanggil kalo mau enter prompt - fabian
-// dan procedure buat pause tampilan sebelum dilakukan clear (karena menggunakan getchar sebelumnya)
+// Prompt enter to continue, user harus menekan enter untuk melanjutkan - Tania
 void enterToContinue(){
     printf("Tekan Enter untuk melanjutkan...");
     getchar();
 }
 
-//procedure tampilin semua data yang ada pada variabel struct mahasiswa
-//data ditampilkan sesuai pilihan dari user (sorting NIM/ASG/MID/FIN)
+/* procedure tampilin semua data yang ada pada variabel struct mahasiswa
+data ditampilkan sesuai pilihan dari user (sorting NIM/ASG/MID/FIN) - Tania */
 void output(){
     printf("%s\n", "-----------------------------------------------------------------");
     printf("| %-10s | %-30s | %-3s | %-3s | %-3s |\n", "NIM", "NAMA LENGKAP", "ASG", "MID", "FIN");
     printf("%s\n", "-----------------------------------------------------------------");
+
+    // Output sebanyak data yang ada sampai variabel count
     for(int i = 0; i < count; i++){
+       /* Terdapat edge case, jika di file tidak ada data sama sekali ternyata mendapatkan count = 1 karena "/0" 
+        dan akan tetap membaca adanya data. Hal ini Membuat UX menjadi kurang karena tidak ada data di database tetapi
+        tetap mengoutput tabel kosong. Maka kita akan cek, jika count nya 1, kita cek apakah ada value menggunakan strlen, jika tidak ada data akan print "DATA MASIH KOSONG", namun jika ada data, akan print sebagai mana mestinya.*/
         if(count == 1){
             if(strlen(mahasiswa[i].nama) > 0){
                 printf("| %-10s | %-30s | ", mahasiswa[i].nim, mahasiswa[i].nama);
@@ -497,7 +506,8 @@ void output(){
     }
 }
 
-//procedure untuk melakukan proses assigning (pemindahan) nilai sementara ke variable struct. Dibuatkan procedure agar tidak dilakukan penulisan kode yang berulang-ulang
+/* Procedure untuk melakukan proses assigning (pemindahan) nilai sementara ke variabel struct. Dibuatkan
+procedure agar tidak dilakukan penulisan kode yang berulang2 - Fabian */ 
 void prosesInputNilai(int index, char tipe){
     int nilaitemp;
     printf("Silahkan masukkan nilainya: ");
@@ -519,7 +529,7 @@ void prosesInputNilai(int index, char tipe){
     outputNilai(index);
 }
 
-//panggil procedure outputNilai agar menampilkan data yang hanya mahasiswa terkait saja
+//panggil procedure outputNilai agar menampilkan data yang hanya mahasiswa terkait saja - Tania
 void outputNilai(int index){
     printf("| %-10s | %-30s | ", mahasiswa[index].nim, mahasiswa[index].nama);
     if(mahasiswa[index].asg == -1){

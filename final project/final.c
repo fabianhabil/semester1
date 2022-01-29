@@ -76,9 +76,6 @@ int main(){
     if(fp == NULL) printf("File tidak ditemukan!\n");
     fclose(fp);
 
-    //melakukan sorting ascending berdasarkan NIM
-    quickSort(mahasiswa, 0, count, 'n');
-
     do{
         menu();
         printf("Pilih menu: ");

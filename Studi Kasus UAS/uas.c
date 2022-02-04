@@ -151,6 +151,21 @@ void tambahMatch(){
                 printf("Club %s tidak ditemukkan! Silahkan coba lagi!\n\n", cari);
                 enterToContinue();
             }
+            else{
+                printf("%s dipilih! Ingin melawan?\n", cari);
+                printf("Input: ");
+                scanf(" %[^\n]", cari2);
+                getchar();
+                int index2 = linearSearch(cari2);
+                if(index2 == -1){
+                    printf("Club %s tidak ditemukkan! Silahkan coba lagi!\n\n", cari2);
+                    enterToContinue();
+                }
+                else{
+                    printf("iya mantap\n");
+                    enterToContinue();
+                }
+            }
         }
     }while(!exit);
     enterToContinue();

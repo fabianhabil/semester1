@@ -9,8 +9,8 @@
    hanya ada 10 club saja, jadi saya memilih Linear Search dan Bubble Sort di program saya*/
 
 // Deklarasi Struct dan Variabel Global
-// Struct club untuk menyimpan data Club dengan length 12 data, karena di database ada 10 data.
-// Kenapa 12 data? saya sengaja melebihkan dari data yang ada untuk menghindari bug dan error.
+/* Struct club untuk menyimpan data Club dengan length 12 data, karena di database ada 10 data.
+   Kenapa 12 data? saya sengaja melebihkan dari data yang ada untuk menghindari bug dan error. */
 typedef struct club{
     char nama[50];
     int menang;
@@ -20,22 +20,32 @@ typedef struct club{
 }club;
 club Club[12];
 
+/* Struct match untuk menyimpan data history match yang sudah diinput user
+   dengan length 100 data. */
+typedef struct match{
+    char pertandingan[100];
+}match;
+match Match[100];
+
 // Variabel count untuk menghitung sekarang ada berapa jumlah data di database.
 int count = 0;
 
 // Fungsi dan Prosedur Prototype.
-void menu();
 void enterToContinue();
+void swap(club *ClubA, club *ClubB);
+void bubbleSort();
+void entryNewData();
+void entryHistoryMatch(char history[]);
+int linearSearch(char namaClub[]);
+void menu();
 void tambahMatch();
 void klasemenLiga();
 void printKlasemen();
-void swap(club *ClubA, club *ClubB);
-void entryNewData();
-int linearSearch(char namaClub[]);
+void printHistory();
 
 // Fungsi Main.
 int main(){
-    system("cls");
+    system("clear");
     menu();
 }
 
@@ -72,6 +82,13 @@ void entryNewData(){
     fclose(fp);
 }
 
+// Prosedur untuk menambahkan history match yang sudah diinput user.
+void entryHistoryMatch(char history[]){
+    FILE *fp = fopen("historyligafabian.data", "a");
+    fprintf(fp, "%s", history);
+    fclose(fp);
+}
+
 // Fungsi untuk mencari data sesuai dengan input user menggunakan Linear Searching
 int linearSearch(char namaClub[]){
     for(int i = 0; i < count; i++){
@@ -88,15 +105,16 @@ void menu(){
     unsigned short option = 1;
     unsigned short valid = 1;
     do{
-        system("cls");
+        system("clear");
         puts("--------------------------------------");
         puts("|      Liga Sepak Bola Indonesia     |");
         puts("--------------------------------------");
         puts("| 1. Tambah Hasil Pertandingan       |");
         puts("| 2. Klasemen Liga                   |");
-        puts("| 3. Exit                            |");
+        puts("| 3. History Match                   |");
+        puts("| 4. Exit                            |");
         puts("--------------------------------------");
-        if(!valid || option > 3 || option < 1){
+        if(!valid || option > 4 || option < 1){
             puts("Input Salah! Silahkan coba lagi!");
         }
         printf("Masukkan Pilihan: ");
@@ -110,8 +128,11 @@ void menu(){
                 klasemenLiga();
             }
             else if(option == 3){
+                printHistory();
+            }
+            else if(option == 4){
                 exit = 1;
-                system("cls");
+                system("clear");
                 puts("Terima kasih sudah berkunjung!");
                 puts("Dibuat oleh Fabian Habil - 2501976503");
             }
@@ -121,19 +142,19 @@ void menu(){
 
 // Prosedur untuk menambahkan match.
 void tambahMatch(){
-    system("cls");
+    system("clear");
     FILE *fp = fopen("ligafabian.data", "r");
     int exit = 0;
     count = 0;
     while(!feof(fp)){
         // fscanf(fp, " %[^#]#%[^#]#%[^\n]\n", Club[count].nama, Club[count].nohp, Club[count].alamat);
-        fscanf(fp, " %[^#]#%d#%d#%d#%d\n", &Club[count].nama, &Club[count].menang, &Club[count].draw, &Club[count].kalah, &Club[count].points);
+        fscanf(fp, " %[^#]#%d#%d#%d#%d\n", Club[count].nama, &Club[count].menang, &Club[count].draw, &Club[count].kalah, &Club[count].points);
         count++;
     }
     fclose(fp);
-    bubbleSort();
     do{
-        system("cls");
+        bubbleSort();
+        system("clear");
         printKlasemen();
         char cari[50];
         char cari2[50];
@@ -152,7 +173,7 @@ void tambahMatch(){
                 enterToContinue();
             }
             else{
-                printf("%s dipilih! Ingin melawan?\n", cari);
+                printf("%s dipilih! Ingin melawan?\n", Club[index].nama);
                 printf("Input: ");
                 scanf(" %[^\n]", cari2);
                 getchar();
@@ -162,22 +183,51 @@ void tambahMatch(){
                     enterToContinue();
                 }
                 else{
-                    printf("iya mantap\n");
+                    system("clear");
+                    printf("%s VS %s\n", Club[index].nama, Club[index2].nama);
+                    int skor1, skor2;
+                    printf("Silahkan masukkan skor!\n");
+                    printf("Contoh Input Skor 2 - 1\n");
+                    scanf("%d - %d", &skor1, &skor2);
+                    getchar();
+                    char history[50];
+                    sprintf(history, "%s %d - %d %s\n", Club[index].nama, skor1, skor2, Club[index2].nama);
+                    entryHistoryMatch(history);
+                    printf("%s\n", history);
+                    if(skor1 == skor2){
+                        Club[index].draw++;
+                        Club[index2].draw++;
+                        Club[index].points += 1;
+                        Club[index2].points += 1;
+                    }
+                    else{
+                        if(skor1 > skor2){
+                            Club[index].menang++;
+                            Club[index].points += 3;
+                            Club[index2].kalah++;
+                        }
+                        else{
+                            Club[index].kalah++;
+                            Club[index2].menang++;
+                            Club[index2].points += 3;
+                        }
+                    }
                     enterToContinue();
                 }
             }
         }
     }while(!exit);
+    entryNewData();
     enterToContinue();
 }
 
 // Prosedur untuk memperlihatkan klasemen liga.
 void klasemenLiga(){
-    system("cls");
+    system("clear");
     FILE *fp = fopen("ligafabian.data", "r");
     count = 0;
     while(!feof(fp)){
-        fscanf(fp, " %[^#]#%d#%d#%d#%d\n", &Club[count].nama, &Club[count].menang, &Club[count].draw, &Club[count].kalah, &Club[count].points);
+        fscanf(fp, " %[^#]#%d#%d#%d#%d\n", Club[count].nama, &Club[count].menang, &Club[count].draw, &Club[count].kalah, &Club[count].points);
         count++;
     }
     fclose(fp);
@@ -198,4 +248,25 @@ void printKlasemen(){
         printf("| %-2d | %-20s | %-8d | %-8d | %-8d | %-8d |\n", i + 1, Club[i].nama, Club[i].menang, Club[i].draw, Club[i].kalah, Club[i].points);
     }
     printf("-------------------------------------------------------------------------\n");
+}
+
+// Prosedur untuk output semua history match yang diinput user di database.
+void printHistory(){
+    FILE *fp = fopen("historyligafabian.data", "r");
+    count = 0;
+    while(!feof(fp)){
+        fscanf(fp, " %[^\n]\n", Match[count].pertandingan);
+        count++;
+    }
+    printf("-----------------------------------------------------------\n");
+    printf("|                HISTORY MATCH LIGA FABIAN                |\n");
+    printf("-----------------------------------------------------------\n");
+    printf("| %-2s | %-50s |\n", "No", "Match");
+    printf("-----------------------------------------------------------\n");
+    for(int i = 0; i < count; i++){
+        printf("| %-2d | %-50s |\n", i+1, Match[i].pertandingan);
+    }
+    fclose(fp);
+    printf("-----------------------------------------------------------\n");
+    enterToContinue();
 }

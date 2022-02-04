@@ -45,7 +45,7 @@ void printHistory();
 
 // Fungsi Main.
 int main(){
-    system("clear");
+    system("cls");
     menu();
 }
 
@@ -115,7 +115,7 @@ void menu(){
     unsigned short valid = 1;
     // Akan terus melakukan loop hingga user exit dari program.
     do{
-        system("clear");
+        system("cls");
         puts("--------------------------------------");
         puts("|      Liga Sepak Bola Indonesia     |");
         puts("--------------------------------------");
@@ -146,7 +146,7 @@ void menu(){
             }
             else if(option == 4){
                 exit = 1;
-                system("clear");
+                system("cls");
                 puts("Terima kasih sudah berkunjung!");
                 puts("Dibuat oleh Fabian Habil - 2501976503");
             }
@@ -156,7 +156,7 @@ void menu(){
 
 // Prosedur untuk menambahkan match.
 void tambahMatch(){
-    system("clear");
+    system("cls");
     // Membuka file stream menggunakan mode read.
     FILE *fp = fopen("ligafabian.data", "r");
     int exit = 0;
@@ -175,7 +175,7 @@ void tambahMatch(){
         /* Melakukan bubble sort sehingga jika user sudah menambahkan pertandingan, point akan berubah.
            sehingga harus disort kembali. */
         bubbleSort();
-        system("clear");
+        system("cls");
         // Print semua klasemen kembali, sehingga user tidak bingung.
         printKlasemen();
         char cari[50];
@@ -214,7 +214,7 @@ void tambahMatch(){
                     enterToContinue();
                 }
                 else{
-                    system("clear");
+                    system("cls");
                     // Memberi tahu user club yang akan bertanding, dan input skor sesuai format yang ada.
                     printf("%s VS %s\n", Club[index].nama, Club[index2].nama);
                     int skor1, skor2;
@@ -266,7 +266,7 @@ void tambahMatch(){
 
 // Prosedur untuk memperlihatkan klasemen liga.
 void klasemenLiga(){
-    system("clear");
+    system("cls");
     // Membuka file stream dengan mode read.
     FILE *fp = fopen("ligafabian.data", "r");
     /* Deklarasikan kembali count menjadi 0, untuk setap barisnya nanti akan ditambah
@@ -301,6 +301,7 @@ void printKlasemen(){
 
 // Prosedur untuk output semua history match yang diinput user di database.
 void printHistory(){
+    system("cls");
     // Membuka file stream dengan mode read.
     FILE *fp = fopen("historyligafabian.data", "r");
     /* Deklarasikan kembali count menjadi 0, untuk setap barisnya nanti akan ditambah

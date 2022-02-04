@@ -117,7 +117,7 @@ void menu(){
     do{
         system("cls");
         puts("--------------------------------------");
-        puts("|      Liga Sepak Bola Indonesia     |");
+        puts("|       Liga Sepak Bola Fabian       |");
         puts("--------------------------------------");
         puts("| 1. Tambah Hasil Pertandingan       |");
         puts("| 2. Klasemen Liga                   |");

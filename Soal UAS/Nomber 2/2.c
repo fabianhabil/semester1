@@ -37,7 +37,7 @@ int main() {
     FILE* fp = fopen("database.data", "r");
     while (!feof(fp)) {
         fscanf(fp, " %[^#]#%[^#]#%d#%d#%d#%d\n", &mahasiswa[count].nama, &mahasiswa[count].nim, &mahasiswa[count].tugas,
-        &mahasiswa[count].uts, &mahasiswa[count].uas, &mahasiswa[count].lulus);
+               &mahasiswa[count].uts, &mahasiswa[count].uas, &mahasiswa[count].lulus);
         count++;
     }
     quickSort(mahasiswa, 0, count - 1);
@@ -51,10 +51,10 @@ int main() {
         printf("Nilai Tugas Mahasiswa: %d\n", mahasiswa[index].tugas);
         printf("Nilai UTS Mahasiswa: %d\n", mahasiswa[index].uts);
         printf("Nilai UAS Mahasiswa: %d\n", mahasiswa[index].uas);
-        if(!mahasiswa[index].lulus){
+        if (!mahasiswa[index].lulus) {
             printf("Mahasiswa tidak lulus mata kuliah ini!\n");
         }
-        else{
+        else {
             printf("Mahasiswa lulus mata kuliah ini!\n");
         }
     }
